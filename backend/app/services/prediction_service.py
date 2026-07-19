@@ -49,6 +49,16 @@ def _version(symbol: str, model_name: str) -> str:
     return f"v:{symbol}:{model_name}:{datetime.now(UTC).isoformat(timespec='seconds')}"
 
 
+def _day_label(d: date) -> str:
+    """Portable ``"Mon 20 Jul"`` label.
+
+    ``strftime("%-d")`` is a glibc-only extension — it raises
+    ``ValueError: Invalid format string`` on Windows, taking down every
+    forecast response. Compose the label from portable pieces instead.
+    """
+    return f"{d:%a} {d.day} {d:%b}"
+
+
 class PredictionService:
     def __init__(
         self,
@@ -159,7 +169,7 @@ class PredictionService:
     def _day_out(self, d: DayForecast) -> DayForecastOut:
         return DayForecastOut(
             date=d.date,
-            day=d.date.strftime("%a %-d %b"),
+            day=_day_label(d.date),
             horizon=d.horizon,
             predicted_price=d.predicted_price,
             lower_bound=d.lower_bound,
@@ -208,7 +218,7 @@ class PredictionService:
         days = [
             DayForecastOut(
                 date=p.target_date,
-                day=p.target_date.strftime("%a %-d %b"),
+                day=_day_label(p.target_date),
                 horizon=p.horizon,
                 predicted_price=round(p.predicted_price, 2),
                 lower_bound=round(p.lower_bound, 2),
