@@ -35,7 +35,7 @@ def train(body: TrainRequest, svc: PredictionServiceDep) -> TrainResponse:
         range=result.data_range,
         training_run_id=result.training_run_id,
         best_model=result.best_name,
-        best_rmse=result.best_metrics.rmse,
+        best_rmse=result.best_metrics.rmse if (result.best_metrics.rmse == result.best_metrics.rmse) else None,
         leadership_note=note,
         leaderboard=leaderboard,
         duration_s=round(time.perf_counter() - t0, 2),

@@ -29,6 +29,8 @@ class MarketDataService:
             indices: list[IndexQuote] = []
             source = DataSource.SEED.value
             for key, meta in INDEX_META.items():
+                if key == "NIFTYBANK":
+                    continue
                 try:
                     frame, src = self.chain.index_history(key, start, None)
                     source = src.value

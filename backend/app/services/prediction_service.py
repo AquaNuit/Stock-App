@@ -149,7 +149,7 @@ class PredictionService:
             last_date=result.last_date,
             model=result.best_name,
             model_version=result.model_version,
-            model_rmse=result.best_metrics.rmse if result.best_metrics.rmse == result.best_metrics.rmse else None,
+            model_rmse=self._clean_nan(result.best_metrics.rmse),
             training_run_id=result.training_run_id,
             cached=False,
             forecasts=[self._day_out(d) for d in days],
@@ -229,7 +229,7 @@ class PredictionService:
             last_date=today,
             model=model_name,
             model_version=fresh[0].model_version,
-            model_rmse=fresh[0].model_rmse,
+            model_rmse=self._clean_nan(fresh[0].model_rmse),
             training_run_id=int(fresh[0].training_run_id or 0),
             cached=True,
             forecasts=days,
@@ -264,15 +264,22 @@ class PredictionService:
         mape = round(sum(errors) / len(errors), 3) if errors else None
         return out, mape
 
+    def _clean_nan(self, v: float | None) -> float | None:
+        if v is None:
+            return None
+        import math
+        if math.isnan(v) or math.isinf(v):
+            return None
+        return float(v)
+
     def model_versions(self, symbol: str) -> list[ModelRow]:
         stock = self.stock_service._require_stock(symbol)
         rows = self.models.for_symbol(stock.id)
-        if not rows:
-            raise NoModelAvailableError(f"no trained models recorded for {symbol.upper()} yet")
         return [
             ModelRow(
                 id=m.id, name=m.name, version=m.version, status=m.status,
-                rmse=m.rmse, mae=m.mae, mape=m.mape, r2=m.r2,
+                rmse=self._clean_nan(m.rmse), mae=self._clean_nan(m.mae),
+                mape=self._clean_nan(m.mape), r2=self._clean_nan(m.r2),
                 data_range=m.data_range, trained_at=m.trained_at,
                 train_rows=m.train_rows, val_rows=m.val_rows,
             )
