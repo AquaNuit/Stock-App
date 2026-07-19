@@ -2,11 +2,13 @@
 
 from __future__ import annotations
 
+import contextlib
+
 from fastapi import APIRouter, Query
 
 from backend.app.api.deps import StockServiceDep, UserDep, WatchlistServiceDep
 from backend.app.database.models import Stock
-from backend.app.schemas.stocks import HistoryResponse, SearchResult, StockDetail, StockSummary
+from backend.app.schemas.stocks import HistoryResponse, StockDetail, StockSummary
 
 router = APIRouter(prefix="/stocks", tags=["stocks"])
 
@@ -21,10 +23,8 @@ def search(
 ) -> dict:
     results = svc.search(q, limit=limit)
     matched = results[0].symbol if results and results[0].symbol.upper() == q.strip().upper() else ""
-    try:
+    with contextlib.suppress(Exception):  # telemetry must never block search
         watchlist.record_search(user, q, matched)
-    except Exception:  # noqa: BLE001 — telemetry must never block search
-        pass
     return {"items": [r.model_dump() for r in results], "count": len(results)}
 
 

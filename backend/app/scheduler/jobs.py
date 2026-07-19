@@ -12,7 +12,6 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
 
 from backend.app.core.config import Settings, get_settings
-from backend.app.core.constants import TimeRange
 from backend.app.core.logging import get_logger
 from backend.app.database.session import session_scope
 from backend.app.providers import default_chain

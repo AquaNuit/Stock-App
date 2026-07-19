@@ -40,7 +40,7 @@ class PriceRepository(Repository[HistoricalPrice]):
                 df = df.rename(columns={df.columns[0]: "date"})
         df["date"] = pd.to_datetime(df["date"]).dt.date
 
-        incoming = [d for d in df["date"]]
+        incoming = list(df["date"])
         self.session.execute(
             delete(HistoricalPrice).where(
                 HistoricalPrice.stock_id == stock_id, HistoricalPrice.date.in_(incoming)

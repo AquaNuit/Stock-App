@@ -61,7 +61,7 @@ class _CircuitBreaker:
             self._failures = 0
 
 
-def default_chain(settings: Settings | None = None, cache: CacheManager | None = None) -> "ProviderChain":
+def default_chain(settings: Settings | None = None, cache: CacheManager | None = None) -> ProviderChain:
     """Composition helper used by ``api.deps`` and scripts."""
     settings = settings or get_settings()
     providers: list[MarketDataProvider] = [

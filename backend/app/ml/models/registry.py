@@ -7,11 +7,11 @@ that can actually train in the current environment.
 from __future__ import annotations
 
 import importlib.util
-from typing import Callable
+from collections.abc import Callable
 
 from backend.app.core.logging import get_logger
 from backend.app.ml.models.base import BaseForecaster
-from backend.app.ml.models.direct import make_linear, make_lightgbm, make_random_forest, make_xgboost
+from backend.app.ml.models.direct import make_lightgbm, make_linear, make_random_forest, make_xgboost
 
 log = get_logger(__name__)
 

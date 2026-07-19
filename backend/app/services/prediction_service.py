@@ -12,7 +12,7 @@ from backend.app.core.config import Settings, get_settings
 from backend.app.core.constants import TimeRange
 from backend.app.core.exceptions import NoModelAvailableError, TrainingError
 from backend.app.core.logging import get_logger
-from backend.app.database.models import Model, Prediction, TrainingRun
+from backend.app.database.models import Model, Prediction
 from backend.app.ml.models.base import ModelMetrics
 from backend.app.ml.prediction.forecaster import DayForecast, Forecaster
 from backend.app.ml.training.pipeline import TrainingPipeline, TrainingResult
@@ -29,7 +29,6 @@ from backend.app.schemas.predictions import (
     LeaderboardRow,
     ModelRow,
     PredictionHistoryRow,
-    TrainResponse,
 )
 from backend.app.services.stock_service import StockService
 

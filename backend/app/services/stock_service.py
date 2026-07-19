@@ -177,7 +177,13 @@ class StockService:
         # Fundamentals: DB → deterministic derivation (offline completeness).
         if stock.pe_ratio is None or stock.week52_high is None:
             derived = derive_fundamentals(stock.symbol, quote.price)
-            frame = self.prices.to_frame(stock.id)
+            # Ensure a year of history is persisted so 52-week stats are real data,
+            # not None on first-ever lookup of a symbol.
+            try:
+                frame, _ = self.get_history_frame(symbol, TimeRange.ONE_YEAR, refresh=True)
+            except Exception as exc:  # noqa: BLE001
+                log.warning("details(): history fetch failed for %s: %s", stock.symbol, exc)
+                frame = self.prices.to_frame(stock.id)
             w52_high = float(frame["high"].tail(252).max()) if len(frame) else None
             w52_low = float(frame["low"].tail(252).min()) if len(frame) else None
             self.stocks.upsert(

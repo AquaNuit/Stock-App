@@ -7,7 +7,7 @@ error compounding and per-horizon calibration.
 
 from __future__ import annotations
 
-from typing import Callable
+from collections.abc import Callable
 
 import numpy as np
 import pandas as pd
@@ -95,7 +95,7 @@ class DirectForecaster(BaseForecaster):
 
 # -- Concrete factories (registry imports lazily) -----------------------------------
 
-def make_linear() -> "DirectForecaster":
+def make_linear() -> DirectForecaster:
     return DirectForecaster(
         "linear",
         lambda: Pipeline([("scale", StandardScaler()), ("ridge", Ridge(alpha=3.0))]),
@@ -103,7 +103,7 @@ def make_linear() -> "DirectForecaster":
     )
 
 
-def make_random_forest() -> "DirectForecaster":
+def make_random_forest() -> DirectForecaster:
     return DirectForecaster(
         "random_forest",
         lambda: RandomForestRegressor(
@@ -114,7 +114,7 @@ def make_random_forest() -> "DirectForecaster":
     )
 
 
-def make_xgboost() -> "DirectForecaster":
+def make_xgboost() -> DirectForecaster:
     from xgboost import XGBRegressor
 
     return DirectForecaster(
@@ -128,7 +128,7 @@ def make_xgboost() -> "DirectForecaster":
     )
 
 
-def make_lightgbm() -> "DirectForecaster":
+def make_lightgbm() -> DirectForecaster:
     from lightgbm import LGBMRegressor
 
     return DirectForecaster(

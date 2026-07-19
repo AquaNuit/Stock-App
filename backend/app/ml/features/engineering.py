@@ -63,8 +63,8 @@ def build_feature_matrix(df: pd.DataFrame) -> tuple[pd.DataFrame, list[str]]:
         out[f"y_h{h}"] = np.log(close.shift(-h) / close)
 
     feature_cols = [c for c in BASE_FEATURES if c in out.columns]
-    feature_cols += [f"ret_lag_{l}" for l in LAG_DAYS]
-    feature_cols += [f"close_lag_{l}" for l in LAG_DAYS]
+    feature_cols += [f"ret_lag_{lag}" for lag in LAG_DAYS]
+    feature_cols += [f"close_lag_{lag}" for lag in LAG_DAYS]
     for w in ROLL_WINDOWS:
         feature_cols += [f"ret_mean_{w}", f"ret_std_{w}", f"ret_max_{w}", f"ret_min_{w}"]
     feature_cols += ["dow_sin", "dow_cos", "month_sin", "month_cos", "dom_scaled"]

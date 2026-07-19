@@ -11,10 +11,10 @@ import pandas as pd
 
 from backend.app.core.constants import TimeRange
 from backend.app.ml.features.technical_indicators import add_technical_indicators
+from backend.app.ml.prediction.forecaster import DayForecast
 from backend.app.repositories import PredictionRepository, StockRepository
 from backend.app.schemas.insights import InsightsResponse, SupportResistance
 from backend.app.services.stock_service import StockService
-from backend.app.ml.prediction.forecaster import DayForecast
 
 
 class InsightsService:
@@ -59,10 +59,7 @@ class InsightsService:
     # ---------------------------------------------------------------- internals
     def _trend(self, e: pd.DataFrame, close: pd.Series) -> tuple[str, str]:
         sma20, sma50 = close.tail(20).mean(), close.tail(50).mean()
-        if len(close) >= 200:
-            sma200 = close.tail(200).mean()
-        else:
-            sma200 = close.mean()
+        sma200 = close.tail(200).mean() if len(close) >= 200 else close.mean()
         above20, above50, above200 = close.iloc[-1] > sma20, close.iloc[-1] > sma50, close.iloc[-1] > sma200
         score = int(above20) + int(above50) + int(above200)
         slope = (sma20 - close.tail(40).head(20).mean()) / max(close.iloc[-1], 1e-9)

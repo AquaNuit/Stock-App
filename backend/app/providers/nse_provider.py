@@ -77,7 +77,6 @@ class NSEProvider(MarketDataProvider):
 
     # -- strategies -----------------------------------------------------------
     def _via_nselib(self, symbol: str, start: date | None, end: date | None) -> pd.DataFrame:
-        import nselib  # type: ignore[import-not-found]  # optional dependency
         from nselib import capital_market
 
         end = end or date.today()

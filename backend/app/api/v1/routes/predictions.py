@@ -13,7 +13,6 @@ from backend.app.schemas.predictions import (
     LeaderboardRow,
     ModelRow,
     PredictRequest,
-    PredictionHistoryRow,
     TrainRequest,
     TrainResponse,
 )
