@@ -1,0 +1,34 @@
+# Netlify build & deploy config for the StockSense AI SPA.
+#
+# Build:
+#   - Node 22, `npm ci`, `npm run build` → outputs to `dist/`
+#
+# SPA routing: every path that isn't a real file is rewritten to /index.html
+# so React Router handles client-side routing.
+#
+# API: two options (choose one) — see frontend/README.md §Deployment.
+#   1. Set VITE_API_BASE (build env) to your deployed API, e.g.
+#      https://api.stocksense.app/api/v1  → frontend calls it directly
+#      (ensure CORS allows your Netlify domain on the backend).
+#   2. OR proxy /api/* to the backend at the edge by enabling the redirect
+#      block at the bottom (replace the target URL). This avoids CORS.
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# SPA fallback
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# --- Optional API proxy (uncomment & set target to use Netlify Edge rewrite) ---
+# [[redirects]]
+#   from = "/api/*"
+#   to = "https://YOUR_BACKEND_API_HERE/api/:splat"
+#   status = 200
+#   force = true
