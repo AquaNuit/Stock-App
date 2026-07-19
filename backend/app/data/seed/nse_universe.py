@@ -39,6 +39,8 @@ NSE_UNIVERSE: list[tuple[str, str, str, str]] = [
     ("AUBANK", "AU Small Finance Bank Ltd", "Financial Services", "Small Finance Bank"),
     # -- NBFC / Insurance / Capital goods-ish financials
     ("BAJFINANCE", "Bajaj Finance Ltd", "Financial Services", "Non-Banking Financial Company"),
+    ("JIOFIN", "Jio Financial Services Ltd", "Financial Services", "Non-Banking Financial Company"),
+    ("JIOFINANCE", "Jio Financial Services Ltd", "Financial Services", "Non-Banking Financial Company"),
     ("BAJAJFINSV", "Bajaj Finserv Ltd", "Financial Services", "Financial Holding"),
     ("CHOLAFIN", "Cholamandalam Investment & Finance Co Ltd", "Financial Services", "NBFC"),
     ("SHRIRAMFIN", "Shriram Finance Ltd", "Financial Services", "NBFC"),
@@ -179,6 +181,11 @@ NSE_UNIVERSE: list[tuple[str, str, str, str]] = [
     ("TATACHEM", "Tata Chemicals Ltd", "Materials", "Chemicals & Fertilizers"),
     ("COROMANDEL", "Coromandel International Ltd", "Materials", "Fertilizers"),
     ("CHAMBLFERT", "Chambal Fertilisers and Chemicals Ltd", "Materials", "Fertilizers"),
+    # -- Indices
+    ("NIFTY50", "NIFTY 50", "Indices", "Market Index"),
+    ("SENSEX", "S&P BSE SENSEX", "Indices", "Market Index"),
+    ("BANKNIFTY", "NIFTY BANK", "Indices", "Market Index"),
+    ("NIFTYBANK", "NIFTY BANK", "Indices", "Market Index"),
 ]
 
 # Large-cap basket for synthetic index computation (approximate NIFTY-50 weights proxy).
@@ -205,4 +212,5 @@ INDEX_META: dict[str, dict] = {
     "NIFTY50": {"name": "NIFTY 50", "basket": NIFTY50_PROXY, "base": 24_500.0},
     "SENSEX": {"name": "S&P BSE SENSEX", "basket": SENSEX_PROXY, "base": 80_500.0},
     "BANKNIFTY": {"name": "NIFTY BANK", "basket": BANKNIFTY_PROXY, "base": 52_000.0},
+    "NIFTYBANK": {"name": "NIFTY BANK", "basket": BANKNIFTY_PROXY, "base": 52_000.0},
 }

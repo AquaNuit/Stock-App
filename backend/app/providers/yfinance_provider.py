@@ -17,11 +17,13 @@ from backend.app.providers.base import MarketDataProvider, ProviderError, Quote,
 
 log = get_logger(__name__)
 
-INDEX_TICKERS = {"NIFTY50": "^NSEI", "BANKNIFTY": "^NSEBANK", "SENSEX": "^BSESN"}
+INDEX_TICKERS = {"NIFTY50": "^NSEI", "BANKNIFTY": "^NSEBANK", "SENSEX": "^BSESN", "NIFTYBANK": "^NSEBANK"}
 
 
 def _to_yf_symbol(symbol: str) -> str:
     symbol = symbol.upper()
+    if symbol == "JIOFINANCE":
+        return "JIOFIN.NS"
     return INDEX_TICKERS.get(symbol, f"{symbol}.NS")
 
 
