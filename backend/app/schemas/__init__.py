@@ -1,0 +1,1 @@
+"""Pydantic DTOs — API contract (docs/api_reference.md)."""
