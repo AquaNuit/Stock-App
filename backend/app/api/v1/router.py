@@ -10,6 +10,7 @@ from backend.app.api.v1.routes import (
     indicators,
     insights,
     market,
+    ping,
     predictions,
     stocks,
     watchlist,
@@ -24,3 +25,4 @@ api_router.include_router(predictions.router)
 api_router.include_router(insights.router)
 api_router.include_router(watchlist.router)
 api_router.include_router(export.router)
+api_router.include_router(ping.router)
