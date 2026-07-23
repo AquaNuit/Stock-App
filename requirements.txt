@@ -1,0 +1,19 @@
+# Runtime dependencies for StockSense AI.
+# The canonical dependency metadata is pyproject.toml; this file supports
+# `pip install -r requirements.txt` in hosts such as Hugging Face Spaces.
+fastapi>=0.110
+uvicorn[standard]>=0.29
+pydantic>=2.6
+pydantic-settings>=2.2
+sqlalchemy>=2.0
+pandas>=2.2
+numpy>=1.26
+scikit-learn>=1.4
+statsmodels>=0.14
+xgboost>=2.0
+lightgbm>=4.0
+prophet>=1.1
+torch>=2.2
+httpx>=0.27
+yfinance>=0.2.40
+apscheduler>=3.10

@@ -42,7 +42,11 @@ class Settings(BaseSettings):
 
     # ML
     train_max_range_years: int = 10
-    max_concurrent_trains: int = 4
+    # Keep the automatic forecast path safe for small CPU-only deployments
+    # (including 1 GB Hugging Face Spaces).
+    max_concurrent_trains: int = 1
+    ml_max_training_rows: int = 750
+    ml_default_models: str = "linear,random_forest"
 
     # Scheduler
     scheduler_enabled: bool = True

@@ -16,6 +16,7 @@ from datetime import date
 import numpy as np
 import pandas as pd
 
+from backend.app.core.config import Settings, get_settings
 from backend.app.core.constants import HORIZON_DAYS, RANDOM_SEED
 from backend.app.core.exceptions import InsufficientHistoryError, TrainingError
 from backend.app.core.logging import get_logger
@@ -49,8 +50,14 @@ class TrainingResult:
 
 
 class TrainingPipeline:
-    def __init__(self, registry: ModelRegistry | None = None, horizon: int = HORIZON_DAYS):
-        self.registry = registry or ModelRegistry()
+    def __init__(
+        self,
+        registry: ModelRegistry | None = None,
+        horizon: int = HORIZON_DAYS,
+        settings: Settings | None = None,
+    ):
+        self.settings = settings or get_settings()
+        self.registry = registry or ModelRegistry(self.settings)
         self.horizon = horizon
 
     # ------------------------------------------------------------------ public
@@ -64,6 +71,12 @@ class TrainingPipeline:
     ) -> TrainingResult:
         np.random.seed(RANDOM_SEED)
         cleaned = clean_ohlcv(frame)
+        # Old observations add little value for a short 7-day forecast but make
+        # every candidate materially slower and larger in memory. Keep the most
+        # recent window, preserving enough data for 200-day indicators.
+        max_rows = self.settings.ml_max_training_rows
+        if max_rows > 0 and len(cleaned) > max_rows:
+            cleaned = cleaned.iloc[-max_rows:].reset_index(drop=True)
         features, feature_cols = training_view(cleaned)
         if len(features) < 80:
             raise InsufficientHistoryError(

@@ -70,7 +70,7 @@ class PredictionService:
         self.session = session
         self.stock_service = stock_service
         self.settings = settings or get_settings()
-        self.pipeline = pipeline or TrainingPipeline()
+        self.pipeline = pipeline or TrainingPipeline(settings=self.settings)
         self.models = ModelRepository(session)
         self.runs = TrainingRunRepository(session)
         self.predictions = PredictionRepository(session)
