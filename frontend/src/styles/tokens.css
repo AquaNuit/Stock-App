@@ -1,87 +1,85 @@
 /* ============================================================
-   StockSense AI — Executive Design Tokens
-   Professional financial terminal aesthetic (Black & Pink).
+   StockSense AI — iOS 18 Vibe Design Tokens (Black & Pink)
    ============================================================ */
 
 :root,
 [data-theme='dark'] {
-  /* Pitch black and obsidian backgrounds */
   --bg-0: #000000;
   --bg-1: #0a0a0a;
   --bg-2: #121212;
-  --bg-grad-a: transparent;
-  --bg-grad-b: transparent;
+  --bg-grad-a: rgba(244, 114, 182, 0.15); /* Pink glow */
+  --bg-grad-b: rgba(225, 29, 72, 0.10); /* Rose glow */
 
-  /* Solid cards instead of heavy glass for professional look */
-  --glass-bg: #0a0a0a;
-  --glass-bg-strong: #000000;
-  --glass-border: #27272a; /* Zinc 800 */
-  --glass-border-strong: #3f3f46; /* Zinc 700 */
-  --glass-blur: 0px;
+  /* Deep translucent blurs for iOS 18 look */
+  --glass-bg: rgba(15, 15, 18, 0.65);
+  --glass-bg-strong: rgba(10, 10, 12, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-border-strong: rgba(255, 255, 255, 0.15);
+  --glass-blur: 32px;
 
-  --surface: #18181b; /* Zinc 900 */
-  --surface-2: #27272a;
-  --surface-hover: #3f3f46;
+  --surface: rgba(255, 255, 255, 0.05);
+  --surface-2: rgba(255, 255, 255, 0.10);
+  --surface-hover: rgba(255, 255, 255, 0.15);
 
   /* Crisp text */
-  --text: #fafafa;
+  --text: #ffffff;
   --text-dim: #a1a1aa;
   --text-muted: #71717a;
 
   /* Financial Indicators */
-  --up: #10b981; /* Emerald 500 */
-  --down: #ef4444; /* Red 500 */
+  --up: #34d399; /* Mint green for iOS */
+  --down: #ff453a; /* iOS Red */
   
-  /* Executive Accents: Light Pink / Rose Gold */
+  /* Accents: Light Pink / Rose Gold */
   --accent: #f472b6; /* Pink 400 */
   --accent-2: #fda4af; /* Rose 300 */
   
   --sma20: #38bdf8;
   --sma50: #818cf8;
   --bb: #71717a;
-  --warn: #fbbf24;
-  --info: #38bdf8;
-  --danger: #ef4444;
+  --warn: #ff9f0a; /* iOS Orange */
+  --info: #0a84ff; /* iOS Blue */
+  --danger: #ff453a;
 
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.6);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.8);
-  --shadow-glow: 0 0 0 1px rgba(244, 114, 182, 0.2), 0 4px 12px rgba(244, 114, 182, 0.1);
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 12px 32px rgba(0, 0, 0, 0.6);
+  --shadow-glow: 0 0 0 1px rgba(244, 114, 182, 0.25), 0 8px 24px rgba(244, 114, 182, 0.15);
 
-  /* Sharper corners */
-  --radius-sm: 4px;
-  --radius: 8px;
-  --radius-lg: 12px;
+  /* iOS Squircles */
+  --radius-sm: 8px;
+  --radius: 20px;
+  --radius-lg: 28px;
 
-  --font: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
-  --mono: 'JetBrains Mono', 'SF Mono', ui-monospace, monospace;
+  --font: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', sans-serif;
+  --mono: ui-monospace, 'SF Mono', monospace;
 
   --sidebar-w: 244px;
-  --topbar-h: 60px;
+  --topbar-h: 64px;
 }
 
 [data-theme='light'] {
-  --bg-0: #fafafa;
-  --bg-1: #f4f4f5;
+  --bg-0: #f4f4f5;
+  --bg-1: #ffffff;
   --bg-2: #ffffff;
-  --bg-grad-a: transparent;
-  --bg-grad-b: transparent;
+  --bg-grad-a: rgba(219, 39, 119, 0.15);
+  --bg-grad-b: rgba(225, 29, 72, 0.10);
 
-  --glass-bg: #ffffff;
-  --glass-bg-strong: #ffffff;
-  --glass-border: #e4e4e7;
-  --glass-border-strong: #d4d4d8;
-  --glass-blur: 0px;
+  --glass-bg: rgba(255, 255, 255, 0.75);
+  --glass-bg-strong: rgba(255, 255, 255, 0.90);
+  --glass-border: rgba(0, 0, 0, 0.06);
+  --glass-border-strong: rgba(0, 0, 0, 0.12);
+  --glass-blur: 32px;
 
-  --surface: #f4f4f5;
-  --surface-2: #e4e4e7;
-  --surface-hover: #d4d4d8;
+  --surface: rgba(0, 0, 0, 0.04);
+  --surface-2: rgba(0, 0, 0, 0.08);
+  --surface-hover: rgba(0, 0, 0, 0.12);
 
-  --text: #09090b;
+  --text: #000000;
   --text-dim: #3f3f46;
   --text-muted: #71717a;
 
-  --up: #059669;
-  --down: #dc2626;
+  --up: #34c759;
+  --down: #ff3b30;
   
   --accent: #db2777; /* Pink 600 */
   --accent-2: #e11d48; /* Rose 600 */
@@ -89,11 +87,11 @@
   --sma20: #0284c7;
   --sma50: #4f46e5;
   --bb: #a1a1aa;
-  --warn: #d97706;
-  --info: #0284c7;
-  --danger: #dc2626;
+  --warn: #ff9500;
+  --info: #007aff;
+  --danger: #ff3b30;
 
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
-  --shadow-glow: 0 0 0 1px rgba(219, 39, 119, 0.15), 0 4px 12px rgba(219, 39, 119, 0.05);
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 12px 32px rgba(0, 0, 0, 0.1);
+  --shadow-glow: 0 0 0 1px rgba(219, 39, 119, 0.15), 0 8px 24px rgba(219, 39, 119, 0.1);
 }

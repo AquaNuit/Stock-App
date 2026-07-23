@@ -19,11 +19,24 @@ body {
   font-family: var(--font);
   color: var(--text);
   background-color: var(--bg-0);
-  background-color: var(--bg-0);
+  background-image: 
+    radial-gradient(800px circle at 0% 0%, var(--bg-grad-a), transparent 80%),
+    radial-gradient(800px circle at 100% 100%, var(--bg-grad-b), transparent 80%);
+  background-size: 200% 200%;
   background-attachment: fixed;
+  animation: ambient-drift 20s ease-in-out infinite alternate;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   line-height: 1.5;
+}
+
+@keyframes ambient-drift {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 100% 100%;
+  }
 }
 
 a {

@@ -42,11 +42,14 @@ class YFinanceProvider(MarketDataProvider):
             import yfinance as yf
 
             ticker = yf.Ticker(_to_yf_symbol(symbol))
-            hist = ticker.history(
-                start=start, end=(end + pd.Timedelta(days=1)) if end else None,  # type: ignore[operator]
-                auto_adjust=False,
-                timeout=self.timeout_s,
-            )
+            kwargs = {"auto_adjust": False, "timeout": self.timeout_s}
+            if start is None and end is None:
+                kwargs["period"] = "max"
+            else:
+                kwargs["start"] = start
+                kwargs["end"] = (end + pd.Timedelta(days=1)) if end else None
+            
+            hist = ticker.history(**kwargs)
         except Exception as exc:  # noqa: BLE001
             raise ProviderError(f"yfinance history failed for {symbol}: {exc}") from exc
         if hist is None or hist.empty:
