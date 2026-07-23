@@ -17,7 +17,7 @@ ENV SCHEDULER_ENABLED=true
 ENV SEED_FALLBACK=true
 ENV CORS_ORIGINS=https://*.netlify.app,http://localhost:5173
 ENV RATE_LIMIT_PER_MINUTE=120
-ENV MAX_CONCURRENT_TRAINS=1
+ENV MAX_CONCURRENT_TRAINS=5
 ENV ML_MAX_TRAINING_ROWS=750
 ENV ML_DEFAULT_MODELS=linear,random_forest
 ENV LOG_LEVEL=INFO
@@ -36,9 +36,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /app
 
-# Copy slim requirements first for layer caching
-COPY requirements-hf.txt .
-RUN pip install --no-cache-dir -r requirements-hf.txt
+# Copy requirements first for layer caching
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy backend source
 COPY backend /app/backend
@@ -50,7 +50,7 @@ RUN echo 'ENV=prod' >> /app/.env \
     && echo 'SCHEDULER_ENABLED=true' >> /app/.env \
     && echo 'SEED_FALLBACK=true' >> /app/.env \
     && echo 'CORS_ORIGINS=https://*.netlify.app,http://localhost:5173' >> /app/.env \
-    && echo 'MAX_CONCURRENT_TRAINS=1' >> /app/.env \
+    && echo 'MAX_CONCURRENT_TRAINS=5' >> /app/.env \
     && echo 'ML_MAX_TRAINING_ROWS=750' >> /app/.env \
     && echo 'ML_DEFAULT_MODELS=linear,random_forest' >> /app/.env \
     && echo 'LOG_LEVEL=INFO' >> /app/.env \
