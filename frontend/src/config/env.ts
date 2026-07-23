@@ -3,7 +3,8 @@
 // API_BASE resolution:
 //   - Dev (default):  '/api/v1'  -> served by the Vite dev proxy -> http://localhost:8000
 //   - Prod (Netlify): set the Netlify build env `VITE_API_BASE` to your deployed
-//     API origin, e.g. https://api.stocksense.app/api/v1
+//     HF Space API origin, e.g. https://your-space.hf.space/api/v1
+//     See ../README_NETLIFY.md and ../README_HF.md for full deployment instructions.
 export const API_BASE: string = (import.meta.env.VITE_API_BASE as string | undefined)?.replace(/\/$/, '') || '/api/v1'
 
 export const APP_NAME = 'StockSense AI'

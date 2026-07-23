@@ -77,6 +77,13 @@ def create_app() -> FastAPI:
     )
     register_error_handlers(app)
     app.include_router(api_router, prefix=API_V1_PREFIX)
+
+    # UptimeRobot keep-alive endpoint (root level for easy pinging)
+    @app.get("/ping", tags=["uptime"])
+    async def root_ping() -> dict:
+        from datetime import UTC, datetime
+        return {"status": "ok", "service": "stocksense-ai", "time": datetime.now(UTC).isoformat()}
+
     return app
 
 

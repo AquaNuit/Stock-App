@@ -6,12 +6,12 @@
 # SPA routing: every path that isn't a real file is rewritten to /index.html
 # so React Router handles client-side routing.
 #
-# API: two options (choose one) — see frontend/README.md §Deployment.
+# API: two options (choose one) — see ../README_NETLIFY.md.
 #   1. Set VITE_API_BASE (build env) to your deployed API, e.g.
 #      https://api.stocksense.app/api/v1  → frontend calls it directly
 #      (ensure CORS allows your Netlify domain on the backend).
-#   2. OR proxy /api/* to the backend at the edge by enabling the redirect
-#      block at the bottom (replace the target URL). This avoids CORS.
+#   2. OR proxy /api/* to the backend at the edge by uncommenting the redirect
+#      block below (replace the target URL with your HF Space URL). This avoids CORS.
 
 [build]
   command = "npm run build"
@@ -20,15 +20,17 @@
 [build.environment]
   NODE_VERSION = "22"
 
-# SPA fallback
+# SPA fallback (React Router support)
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
 
-# --- Optional API proxy (uncomment & set target to use Netlify Edge rewrite) ---
-# [[redirects]]
-#   from = "/api/*"
-#   to = "https://YOUR_BACKEND_API_HERE/api/:splat"
-#   status = 200
-#   force = true
+# --- API Proxy to Hugging Face Space (uncomment & set your HF URL) ---
+# Replace YOUR_USERNAME-YOUR_SPACE with your actual HF Space identifier.
+# Example: https://aquanuit-stocksense-ai.hf.space/api/:splat
+[[redirects]]
+  from = "/api/*"
+  to = "https://YOUR_USERNAME-YOUR_SPACE.hf.space/api/:splat"
+  status = 200
+  force = true
