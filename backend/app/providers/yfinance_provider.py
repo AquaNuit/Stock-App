@@ -81,43 +81,49 @@ class YFinanceProvider(MarketDataProvider):
             return {}
         try:
             import yfinance as yf
-            import pandas as pd
             
-            yf_symbols = [_to_yf_symbol(s) for s in symbols]
-            tickers = " ".join(yf_symbols)
-            data = yf.download(tickers, period="5d", group_by="ticker", auto_adjust=False, threads=True, progress=False)
+            # Map original symbols to Yahoo symbols (e.g. TCS -> TCS.NS)
+            yf_map = { _to_yf_symbol(s): s for s in symbols }
+            yf_symbols = list(yf_map.keys())
             
+            # Request quotes in batches of 200 (sufficient for our 163 universe)
             res = {}
-            for i, sym in enumerate(symbols):
-                yf_sym = yf_symbols[i]
+            mgr = yf.data.YfData()
+            
+            # Batching logic
+            batch_size = 200
+            for i in range(0, len(yf_symbols), batch_size):
+                batch = yf_symbols[i:i + batch_size]
+                url = "https://query2.finance.yahoo.com/v7/finance/quote"
                 try:
-                    if isinstance(data.columns, pd.MultiIndex):
-                        if yf_sym not in data.columns.levels[0]:
-                            continue
-                        df = data[yf_sym]
-                    else:
-                        df = data
-                        
-                    df = df.dropna(subset=["Close"])
-                    if df.empty:
-                        continue
-                        
-                    price = float(df["Close"].iloc[-1])
-                    prev_close = float(df["Close"].iloc[-2]) if len(df) > 1 else price
+                    # YfData handles crumb authentication automatically
+                    api_res = mgr.get(url, params={"symbols": ",".join(batch)}).json()
+                    quotes = api_res.get("quoteResponse", {}).get("result", [])
                     
-                    res[sym.upper()] = Quote(
-                        symbol=sym.upper(),
-                        price=round(price, 2),
-                        open=float(df["Open"].iloc[-1]),
-                        high=float(df["High"].iloc[-1]),
-                        low=float(df["Low"].iloc[-1]),
-                        prev_close=round(prev_close, 2),
-                        volume=int(df["Volume"].iloc[-1]),
-                        as_of=datetime.now(),
-                        source=DataSource.YFINANCE,
-                    )
+                    for q in quotes:
+                        yf_sym = q.get("symbol")
+                        if not yf_sym or yf_sym not in yf_map:
+                            continue
+                            
+                        orig_sym = yf_map[yf_sym]
+                        price = float(q.get("regularMarketPrice", 0.0))
+                        if price == 0.0:
+                            continue
+                            
+                        res[orig_sym.upper()] = Quote(
+                            symbol=orig_sym.upper(),
+                            price=round(price, 2),
+                            open=float(q.get("regularMarketOpen", price)),
+                            high=float(q.get("regularMarketDayHigh", price)),
+                            low=float(q.get("regularMarketDayLow", price)),
+                            prev_close=round(float(q.get("regularMarketPreviousClose", price)), 2),
+                            volume=int(q.get("regularMarketVolume", 0)),
+                            as_of=datetime.now(),
+                            source=DataSource.YFINANCE,
+                        )
                 except Exception as exc:
-                    log.debug("yfinance bulk parsing failed for %s: %s", sym, exc)
+                    log.debug("yfinance v7 bulk batch failed: %s", exc)
+                    
             return res
         except Exception as exc:
             raise ProviderError(f"yfinance bulk get_quotes failed: {exc}") from exc
