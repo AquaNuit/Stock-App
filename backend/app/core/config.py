@@ -38,7 +38,7 @@ class Settings(BaseSettings):
     # Providers
     seed_fallback: bool = True
     provider_timeout_s: float = 8.0
-    nse_enabled: bool = True
+    nse_enabled: bool = False
 
     # ML
     train_max_range_years: int = 10

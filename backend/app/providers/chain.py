@@ -65,7 +65,7 @@ def default_chain(settings: Settings | None = None, cache: CacheManager | None =
     """Composition helper used by ``api.deps`` and scripts."""
     settings = settings or get_settings()
     providers: list[MarketDataProvider] = [
-        NSEProvider(timeout_s=settings.provider_timeout_s, enabled=settings.nse_enabled),
+        # NSEProvider(timeout_s=settings.provider_timeout_s, enabled=settings.nse_enabled),
         YFinanceProvider(timeout_s=settings.provider_timeout_s),
     ]
     if settings.seed_fallback:
