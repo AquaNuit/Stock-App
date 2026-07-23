@@ -82,17 +82,18 @@ class YFinanceProvider(MarketDataProvider):
 
             ticker = yf.Ticker(_to_yf_symbol(symbol))
             info = ticker.fast_info  # type: ignore[attr-defined]
-            price = float(getattr(info, "last_price", None) or ticker.history(period="2d")["Close"].iloc[-1])
-            hist = ticker.history(period="5d")
-            prev_close = float(hist["Close"].iloc[-2]) if len(hist) > 1 else price
+            
+            price = float(info.last_price) if info.last_price is not None else 0.0
+            prev_close = float(info.previous_close) if info.previous_close is not None else price
+            
             return Quote(
                 symbol=symbol.upper(),
                 price=round(price, 2),
-                open=float(getattr(info, "open", price) or price),
-                high=float(getattr(info, "day_high", price) or price),
-                low=float(getattr(info, "day_low", price) or price),
+                open=float(info.open) if info.open is not None else price,
+                high=float(info.day_high) if info.day_high is not None else price,
+                low=float(info.day_low) if info.day_low is not None else price,
                 prev_close=round(prev_close, 2),
-                volume=int(getattr(info, "last_volume", 0) or 0),
+                volume=int(info.last_volume) if info.last_volume is not None else 0,
                 as_of=datetime.now(),
                 source=DataSource.YFINANCE,
             )

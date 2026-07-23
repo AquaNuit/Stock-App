@@ -63,7 +63,7 @@ class MarketDataService:
                 sentiment_label=label, source=source,
             )
 
-        return self.cache.get_or_set("market:overview", produce, self.settings.cache_ttl_overview_s)
+        return produce()
 
     def _universe_stats(self) -> dict:
         def produce() -> dict:
@@ -85,7 +85,7 @@ class MarketDataService:
                 "total": total,
             }
 
-        return self.cache.get_or_set("market:universe_stats", produce, 600)
+        return produce()
 
     # ---------------------------------------------------------------- movers
     def movers(self, kind: str, *, limit: int = 10) -> MoversResponse:
@@ -127,7 +127,7 @@ class MarketDataService:
                 except Exception:  # noqa: BLE001
                     return None
 
-            with ThreadPoolExecutor(max_workers=8) as pool:
+            with ThreadPoolExecutor(max_workers=32) as pool:
                 return [r for r in pool.map(load, names.items()) if r is not None]
 
-        return self.cache.get_or_set("market:daily_rows", produce, 300)
+        return produce()
