@@ -81,7 +81,6 @@ export function MarketStatusBanner() {
       gap: '8px',
       fontSize: '0.875rem',
       fontWeight: 500,
-      zIndex: 100,
       width: '100%',
     }}>
       <AlertTriangle size={16} />

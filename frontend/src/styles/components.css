@@ -609,6 +609,17 @@
   border-radius: 8px;
   transition: background 0.15s ease;
 }
+@media (max-width: 640px) {
+  .mover-row {
+    grid-template-columns: 1fr auto auto 30px;
+  }
+  .mover-row__name {
+    display: none;
+  }
+  .mover-row__vol {
+    display: none;
+  }
+}
 .mover-row:hover {
   background: var(--surface);
 }

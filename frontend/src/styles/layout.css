@@ -4,7 +4,8 @@
 
 .app-shell {
   display: flex;
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
 }
 
 /* ---- Sidebar ---- */
@@ -119,6 +120,7 @@
   min-width: 0;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 .topbar {
   position: sticky;
@@ -171,6 +173,8 @@
 .app-content {
   padding: 22px;
   flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* ---- Responsive ---- */
