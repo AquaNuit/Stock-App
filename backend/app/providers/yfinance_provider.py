@@ -76,6 +76,52 @@ class YFinanceProvider(MarketDataProvider):
             raise ProviderError(f"yfinance empty slice for {symbol}")
         return frame.reset_index(drop=True)
 
+    def get_quotes(self, symbols: list[str]) -> dict[str, Quote]:
+        if not symbols:
+            return {}
+        try:
+            import yfinance as yf
+            import pandas as pd
+            
+            yf_symbols = [_to_yf_symbol(s) for s in symbols]
+            tickers = " ".join(yf_symbols)
+            data = yf.download(tickers, period="5d", group_by="ticker", auto_adjust=False, threads=True, progress=False)
+            
+            res = {}
+            for i, sym in enumerate(symbols):
+                yf_sym = yf_symbols[i]
+                try:
+                    if isinstance(data.columns, pd.MultiIndex):
+                        if yf_sym not in data.columns.levels[0]:
+                            continue
+                        df = data[yf_sym]
+                    else:
+                        df = data
+                        
+                    df = df.dropna(subset=["Close"])
+                    if df.empty:
+                        continue
+                        
+                    price = float(df["Close"].iloc[-1])
+                    prev_close = float(df["Close"].iloc[-2]) if len(df) > 1 else price
+                    
+                    res[sym.upper()] = Quote(
+                        symbol=sym.upper(),
+                        price=round(price, 2),
+                        open=float(df["Open"].iloc[-1]),
+                        high=float(df["High"].iloc[-1]),
+                        low=float(df["Low"].iloc[-1]),
+                        prev_close=round(prev_close, 2),
+                        volume=int(df["Volume"].iloc[-1]),
+                        as_of=datetime.now(),
+                        source=DataSource.YFINANCE,
+                    )
+                except Exception as exc:
+                    log.debug("yfinance bulk parsing failed for %s: %s", sym, exc)
+            return res
+        except Exception as exc:
+            raise ProviderError(f"yfinance bulk get_quotes failed: {exc}") from exc
+
     def get_quote(self, symbol: str) -> Quote:
         try:
             import yfinance as yf

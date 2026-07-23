@@ -112,22 +112,18 @@ class MarketDataService:
     def _daily_universe_rows(self) -> list[dict]:
         def produce() -> list[dict]:
             names = {i.symbol: i.company_name for i in self.chain.universe()}
-
-            def load(item: tuple[str, str]) -> dict | None:
-                symbol, name = item
-                try:
-                    q = self.chain.get_quote(symbol)
-                    above = False
-                    above = q.change > 0
-                    return {
-                        "symbol": symbol, "company_name": name, "price": q.price,
-                        "change": q.change, "change_pct": q.change_pct, "volume": q.volume,
-                        "above_20d": above,
-                    }
-                except Exception:  # noqa: BLE001
-                    return None
-
-            with ThreadPoolExecutor(max_workers=32) as pool:
-                return [r for r in pool.map(load, names.items()) if r is not None]
+            quotes = self.chain.get_quotes(list(names.keys()))
+            
+            results = []
+            for symbol, name in names.items():
+                q = quotes.get(symbol.upper())
+                if not q:
+                    continue
+                results.append({
+                    "symbol": symbol, "company_name": name, "price": q.price,
+                    "change": q.change, "change_pct": q.change_pct, "volume": q.volume,
+                    "above_20d": q.change > 0,
+                })
+            return results
 
         return produce()

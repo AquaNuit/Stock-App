@@ -170,6 +170,32 @@ class ProviderChain:
             return quote
         raise ProviderError(f"no provider could serve quote for {symbol} ({'; '.join(errors)})")
 
+    def get_quotes(self, symbols: list[str]) -> dict[str, Quote]:
+        pending = {s.upper() for s in symbols}
+        results = {}
+        for provider in self.providers:
+            if not pending:
+                break
+            breaker = self._breakers[id(provider)]
+            if id(provider) not in self._unbreakable and not breaker.allow():
+                continue
+            
+            supported = [s for s in pending if provider.supports(s)]
+            if not supported:
+                continue
+                
+            try:
+                quotes = provider.get_quotes(supported)
+                for s, q in quotes.items():
+                    results[s] = q
+                    pending.discard(s)
+                breaker.record_success()
+            except Exception as exc:
+                breaker.record_failure(provider.name.value)
+                log.debug("provider %s bulk failed: %s", provider.name, exc)
+                
+        return results
+
     def index_history(self, index_key: str, start: date | None = None, end: date | None = None):
         return self.get_history(index_key, start, end)
 

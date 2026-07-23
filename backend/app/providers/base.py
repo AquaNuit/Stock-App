@@ -63,6 +63,16 @@ class MarketDataProvider(abc.ABC):
     def get_quote(self, symbol: str) -> Quote:
         """Latest quote (approximation from last bars is acceptable for EOD providers)."""
 
+    def get_quotes(self, symbols: list[str]) -> dict[str, Quote]:
+        """Bulk latest quotes. Base implementation falls back to sequential get_quote calls."""
+        res = {}
+        for sym in symbols:
+            try:
+                res[sym] = self.get_quote(sym)
+            except ProviderError:
+                pass
+        return res
+
     def supports(self, symbol: str) -> bool:  # noqa: ARG002 - overridable filter
         return True
 
