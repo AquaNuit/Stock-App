@@ -118,12 +118,7 @@ class MarketDataService:
                 try:
                     q = self.chain.get_quote(symbol)
                     above = False
-                    try:
-                        frame, _ = self.chain.get_history(symbol, date.today() - timedelta(days=40), None)
-                        closes = frame["close"].astype(float)
-                        above = len(closes) >= 20 and float(closes.iloc[-1]) >= float(closes.tail(20).mean())
-                    except Exception:  # noqa: BLE001
-                        pass
+                    above = q.change > 0
                     return {
                         "symbol": symbol, "company_name": name, "price": q.price,
                         "change": q.change, "change_pct": q.change_pct, "volume": q.volume,

@@ -1,51 +1,51 @@
 /* ============================================================
    StockSense AI — Executive Design Tokens
-   Professional financial terminal aesthetic.
+   Professional financial terminal aesthetic (Black & Pink).
    ============================================================ */
 
 :root,
 [data-theme='dark'] {
-  /* Sleek, deep slate/navy backgrounds */
-  --bg-0: #020617; /* Slate 950 */
-  --bg-1: #090e1a;
-  --bg-2: #0f172a; /* Slate 900 */
+  /* Pitch black and obsidian backgrounds */
+  --bg-0: #000000;
+  --bg-1: #0a0a0a;
+  --bg-2: #121212;
   --bg-grad-a: transparent;
   --bg-grad-b: transparent;
 
   /* Solid cards instead of heavy glass for professional look */
-  --glass-bg: #0f172a;
-  --glass-bg-strong: #020617;
-  --glass-border: #1e293b; /* Slate 800 */
-  --glass-border-strong: #334155; /* Slate 700 */
-  --glass-blur: 0px; /* Disabled for cleaner look */
+  --glass-bg: #0a0a0a;
+  --glass-bg-strong: #000000;
+  --glass-border: #27272a; /* Zinc 800 */
+  --glass-border-strong: #3f3f46; /* Zinc 700 */
+  --glass-blur: 0px;
 
-  --surface: #1e293b;
-  --surface-2: #334155;
-  --surface-hover: #475569;
+  --surface: #18181b; /* Zinc 900 */
+  --surface-2: #27272a;
+  --surface-hover: #3f3f46;
 
   /* Crisp text */
-  --text: #f8fafc;
-  --text-dim: #94a3b8;
-  --text-muted: #64748b;
+  --text: #fafafa;
+  --text-dim: #a1a1aa;
+  --text-muted: #71717a;
 
   /* Financial Indicators */
   --up: #10b981; /* Emerald 500 */
   --down: #ef4444; /* Red 500 */
   
-  /* Executive Accents: Gold/Amber */
-  --accent: #fbbf24; /* Amber 400 */
-  --accent-2: #f59e0b; /* Amber 500 */
+  /* Executive Accents: Light Pink / Rose Gold */
+  --accent: #f472b6; /* Pink 400 */
+  --accent-2: #fda4af; /* Rose 300 */
   
   --sma20: #38bdf8;
   --sma50: #818cf8;
-  --bb: #64748b;
+  --bb: #71717a;
   --warn: #fbbf24;
   --info: #38bdf8;
   --danger: #ef4444;
 
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
-  --shadow-glow: 0 0 0 1px rgba(251, 191, 36, 0.3), 0 4px 12px rgba(251, 191, 36, 0.1);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.6);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.8);
+  --shadow-glow: 0 0 0 1px rgba(244, 114, 182, 0.2), 0 4px 12px rgba(244, 114, 182, 0.1);
 
   /* Sharper corners */
   --radius-sm: 4px;
@@ -60,40 +60,40 @@
 }
 
 [data-theme='light'] {
-  --bg-0: #f1f5f9; /* Slate 100 */
-  --bg-1: #f8fafc; /* Slate 50 */
+  --bg-0: #fafafa;
+  --bg-1: #f4f4f5;
   --bg-2: #ffffff;
   --bg-grad-a: transparent;
   --bg-grad-b: transparent;
 
   --glass-bg: #ffffff;
   --glass-bg-strong: #ffffff;
-  --glass-border: #cbd5e1; /* Slate 300 */
-  --glass-border-strong: #94a3b8; /* Slate 400 */
+  --glass-border: #e4e4e7;
+  --glass-border-strong: #d4d4d8;
   --glass-blur: 0px;
 
-  --surface: #f1f5f9;
-  --surface-2: #e2e8f0;
-  --surface-hover: #cbd5e1;
+  --surface: #f4f4f5;
+  --surface-2: #e4e4e7;
+  --surface-hover: #d4d4d8;
 
-  --text: #0f172a;
-  --text-dim: #334155;
-  --text-muted: #64748b;
+  --text: #09090b;
+  --text-dim: #3f3f46;
+  --text-muted: #71717a;
 
   --up: #059669;
   --down: #dc2626;
   
-  --accent: #d97706; /* Amber 600 */
-  --accent-2: #b45309; /* Amber 700 */
+  --accent: #db2777; /* Pink 600 */
+  --accent-2: #e11d48; /* Rose 600 */
   
   --sma20: #0284c7;
   --sma50: #4f46e5;
-  --bb: #94a3b8;
+  --bb: #a1a1aa;
   --warn: #d97706;
   --info: #0284c7;
   --danger: #dc2626;
 
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
-  --shadow-glow: 0 0 0 1px rgba(217, 119, 6, 0.2), 0 4px 12px rgba(217, 119, 6, 0.05);
+  --shadow-glow: 0 0 0 1px rgba(219, 39, 119, 0.15), 0 4px 12px rgba(219, 39, 119, 0.05);
 }
