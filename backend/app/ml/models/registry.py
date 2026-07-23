@@ -9,6 +9,7 @@ from __future__ import annotations
 import importlib.util
 from collections.abc import Callable
 
+from backend.app.core.config import Settings, get_settings
 from backend.app.core.logging import get_logger
 from backend.app.ml.models.base import BaseForecaster
 from backend.app.ml.models.direct import make_lightgbm, make_linear, make_random_forest, make_xgboost
@@ -58,7 +59,8 @@ _CANDIDATES: dict[str, tuple[str, Factory]] = {
 class ModelRegistry:
     """Create forecaster instances by name; reflects environment availability."""
 
-    def __init__(self) -> None:
+    def __init__(self, settings: Settings | None = None) -> None:
+        self.settings = settings or get_settings()
         self._available: dict[str, Factory] = {}
         for name, (module, factory) in _CANDIDATES.items():
             if _has(module):
@@ -78,6 +80,11 @@ class ModelRegistry:
         return self._available[name]()
 
     def default_candidates(self) -> list[str]:
-        """Sensible default zoo ordered by expected quality/cost (docs/ml_pipeline.md §4)."""
-        preference = ["xgboost", "lightgbm", "random_forest", "linear", "arima", "prophet", "lstm"]
-        return [m for m in preference if m in self._available]
+        """Return the configured automatic model zoo.
+
+        The default deliberately excludes expensive engines. They remain
+        available through an explicit API/UI selection, while ordinary forecast
+        requests stay predictable on small CPU/RAM deployments.
+        """
+        configured = [name.strip() for name in self.settings.ml_default_models.split(",")]
+        return [name for name in configured if name and name in self._available]

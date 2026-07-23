@@ -107,10 +107,12 @@ def make_random_forest() -> DirectForecaster:
     return DirectForecaster(
         "random_forest",
         lambda: RandomForestRegressor(
-            n_estimators=96, max_depth=12, min_samples_leaf=4,
-            n_jobs=-1, random_state=RANDOM_SEED,
+            # Seven direct-horizon estimators are fitted per run. A compact,
+            # single-worker forest avoids CPU/RAM spikes in 1 GB containers.
+            n_estimators=32, max_depth=8, min_samples_leaf=6,
+            n_jobs=1, random_state=RANDOM_SEED,
         ),
-        params={"n_estimators": 96, "max_depth": 12},
+        params={"n_estimators": 32, "max_depth": 8, "n_jobs": 1},
     )
 
 
@@ -120,11 +122,11 @@ def make_xgboost() -> DirectForecaster:
     return DirectForecaster(
         "xgboost",
         lambda: XGBRegressor(
-            n_estimators=180, learning_rate=0.06, max_depth=5,
+            n_estimators=48, learning_rate=0.08, max_depth=4,
             subsample=0.9, colsample_bytree=0.8, reg_lambda=1.0,
-            tree_method="hist", n_jobs=-1, random_state=RANDOM_SEED,
+            tree_method="hist", n_jobs=1, random_state=RANDOM_SEED,
         ),
-        params={"n_estimators": 180, "learning_rate": 0.06, "max_depth": 5},
+        params={"n_estimators": 48, "learning_rate": 0.08, "max_depth": 4, "n_jobs": 1},
     )
 
 
@@ -134,9 +136,9 @@ def make_lightgbm() -> DirectForecaster:
     return DirectForecaster(
         "lightgbm",
         lambda: LGBMRegressor(
-            n_estimators=260, learning_rate=0.05, num_leaves=31,
-            subsample=0.9, colsample_bytree=0.8, n_jobs=-1,
+            n_estimators=64, learning_rate=0.08, num_leaves=15,
+            subsample=0.9, colsample_bytree=0.8, n_jobs=1,
             random_state=RANDOM_SEED, verbose=-1,
         ),
-        params={"n_estimators": 260, "learning_rate": 0.05, "num_leaves": 31},
+        params={"n_estimators": 64, "learning_rate": 0.08, "num_leaves": 15, "n_jobs": 1},
     )
