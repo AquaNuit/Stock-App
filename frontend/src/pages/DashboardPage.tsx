@@ -17,7 +17,7 @@ export default function DashboardPage() {
   const { data: watchlist } = useWatchlist()
 
   return (
-    <Page title="Market Dashboard" actions={<SourceBadge source={overview?.source ?? 'cache'} />}>
+    <Page title="Market Dashboard" actions={<SourceBadge source={overview?.source ?? 'Loading...'} />}>
       <div className="dashboard-hero glass">
         <div>
           <h2>Indian markets, decoded by AI.</h2>
