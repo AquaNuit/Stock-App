@@ -26,7 +26,7 @@ export default function Sidebar() {
           </span>
           <div>
             <strong>{APP_NAME}</strong>
-            <small>NSE Intelligence</small>
+            <small style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', display: 'block' }}>Developed By Aarav Trivedi</small>
           </div>
           <button className="sidebar__close" onClick={() => setSidebar(false)} aria-label="Close menu">
             <X size={18} />
@@ -48,10 +48,7 @@ export default function Sidebar() {
           ))}
         </nav>
 
-        <div className="sidebar__foot">
-          <p className="sidebar__hint">Demo data is synthetic &amp; labeled “Demo”. Not investment advice.</p>
           <span className="sidebar__ver">v{import.meta.env.VITE_APP_VERSION ?? '0.1.0'}</span>
-        </div>
       </aside>
     </>
   )
