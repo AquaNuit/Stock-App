@@ -8,6 +8,19 @@
 }
 
 /* ---- Sidebar ---- */
+.sidebar-scrim {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(2px);
+  z-index: 35;
+  animation: fadeIn 0.2s ease;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
 .sidebar {
   width: var(--sidebar-w);
   flex-shrink: 0;
@@ -18,8 +31,6 @@
   flex-direction: column;
   padding: 18px 14px;
   background: var(--glass-bg-strong);
-  backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
   border-right: 1px solid var(--glass-border);
   z-index: 40;
 }
@@ -185,7 +196,7 @@
 }
 @media (max-width: 560px) {
   .app-content {
-    padding: 14px;
+    padding: 12px 10px;
   }
   .status-dot {
     display: none;

@@ -19,10 +19,7 @@ body {
   font-family: var(--font);
   color: var(--text);
   background-color: var(--bg-0);
-  background-image:
-    radial-gradient(900px 600px at 12% -8%, var(--bg-grad-a), transparent 60%),
-    radial-gradient(900px 700px at 92% 0%, var(--bg-grad-b), transparent 55%),
-    linear-gradient(180deg, var(--bg-1), var(--bg-0));
+  background-color: var(--bg-0);
   background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;

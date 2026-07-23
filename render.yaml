@@ -14,7 +14,7 @@ services:
       - key: DATABASE_URL
         value: sqlite:///./stocksense.db
       - key: MAX_CONCURRENT_TRAINS
-        value: 1
+        value: 2
       - key: ML_MAX_TRAINING_ROWS
         value: 750
       - key: ML_DEFAULT_MODELS

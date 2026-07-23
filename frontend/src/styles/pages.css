@@ -91,6 +91,14 @@
     grid-template-columns: 1fr;
   }
 }
+@media (max-width: 560px) {
+  .dashboard-hero {
+    padding: 16px 12px;
+  }
+  .page {
+    gap: 14px;
+  }
+}
 
 /* ---- Search page ---- */
 .search-page__bar {
