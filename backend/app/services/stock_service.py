@@ -120,7 +120,12 @@ class StockService:
         latest = self.prices.latest_date(stock.id)
         have = self.prices.count_for(stock.id)
         stale_cutoff = end - timedelta(days=3)  # weekend/holiday tolerant
-        if refresh and (latest is None or latest < stale_cutoff or (days and have < days * 0.5)):
+        if refresh and (
+            latest is None 
+            or latest < stale_cutoff 
+            or (days and have < days * 0.5)
+            or (not days and have < 1250)
+        ):
             try:
                 frame, source = self.chain.get_history(stock.symbol, start, end)
                 self.prices.bulk_upsert(stock.id, frame, source=source.value)

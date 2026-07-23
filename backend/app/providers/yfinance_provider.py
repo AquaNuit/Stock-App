@@ -43,8 +43,10 @@ class YFinanceProvider(MarketDataProvider):
 
             ticker = yf.Ticker(_to_yf_symbol(symbol))
             kwargs = {"auto_adjust": False, "timeout": self.timeout_s}
-            if start is None and end is None:
+            if start is None:
                 kwargs["period"] = "max"
+                if end is not None:
+                    kwargs["end"] = end + pd.Timedelta(days=1)
             else:
                 kwargs["start"] = start
                 kwargs["end"] = (end + pd.Timedelta(days=1)) if end else None
